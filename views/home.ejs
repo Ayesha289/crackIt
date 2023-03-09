@@ -1,0 +1,20 @@
+<%- include('partials/header') %>
+
+    <h1>Main Home Page</h1>
+    <p>Will contain the main logos the design and registration for students</p>
+
+    <form action="/quiz">
+        <label for="fullName">Your Name: </label>
+        <input type="text" name="fullName" required>
+        <label for="email">Your Mail: </label>
+        <input type="email" required>
+        <label for="code">Enter Access Code:</label>
+        <input type="text" name="code" required>
+        <button type="submit">Register</button>
+    </form>
+
+    <p>We will add a checkpoint, if the length of the access code is 5 then it will be redirected to round 1 quiz </p>
+    <p> and if the length of the access is 8 suppose, then it will be redirected to Round 2 Quiz</p>
+
+<%- include('partials/footer') %>
+
