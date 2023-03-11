@@ -44,6 +44,18 @@ app.get("/secret/crackIt", function(req, res){
     res.render("crackIt");
 });
 
+app.get("/secret/questions", function(req, res){
+    res.render("questions");
+});
+
+app.get("/secret/responses", function(req, res){
+    res.render("responses");
+});
+
+app.get("/secret/mails", function(req, res){
+    res.render("mails");
+});
+
 app.post("/register", function(req, res){
 
     bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
@@ -70,8 +82,6 @@ app.post("/login", async function(req, res){
             });
         }
     });
-
-    
 });
 
 app.listen(3000, function() {
