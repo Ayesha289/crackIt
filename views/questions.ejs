@@ -21,6 +21,10 @@
         .heading{
             padding: 60px;
         }
+        .form{
+            text-align: center;
+            color: #4D455D;
+        }
     </style>
 </head>
 <body>
@@ -28,8 +32,14 @@
         <h1>Add Quiz Questions</h1>
     </div>
 
-    <p>Add 2 options 1 for round 1 quiz which will consistes a schema of 6 objects - 1 for question, 4 for options and 1 for correct response.</p>
-    <p>For round 2 quiz which will consists a schema of 2 objects - 1 for question 1 for text responses</p>
-    
+    <div class="form">
+        <form action="/questions" method="post">
+            <label for="quesNum">Enter the number of questions: </label>
+            <input type="number" name="quesNum" required>
+        </form>
+        <br>
+        <a class="btn btn-outline-dark btn-lg" href="/secret/question-round-one" role="button">Round One</a>
+        <a class="btn btn-outline-dark btn-lg" href="/secret/question-round-two" role="button">Round Two</a>
+    </div>
 </body>
 </html>

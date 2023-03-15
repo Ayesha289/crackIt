@@ -1,20 +1,26 @@
-<%- include('partials/header') %>
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
 
-    <h1>Main Home Page</h1>
-    <p>Will contain the main logos the design and registration for students</p>
+<head>
+    <meta charset="utf-8">
+    <title>Secrets</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
 
-    <form action="/quiz">
-        <label for="fullName">Your Name: </label>
-        <input type="text" name="fullName" required>
-        <label for="email">Your Mail: </label>
-        <input type="email" required>
-        <label for="code">Enter Access Code:</label>
-        <input type="text" name="code" required>
-        <button type="submit">Register</button>
-    </form>
+<body>
 
-    <p>We will add a checkpoint, if the length of the access code is 5 then it will be redirected to round 1 quiz </p>
-    <p> and if the length of the access is 8 suppose, then it will be redirected to Round 2 Quiz</p>
+    <div class="jumbotron centered">
+        <div class="container">
+            <h1 class="display-3">Crack It</h1>
+            <p class="lead">Welcome to test your general knowledge</p>
+            <hr>
+            <a class="btn btn-light btn-lg" href="/register" role="button">Register</a>
+            <a class="btn btn-dark btn-lg" href="/login" role="button">Login</a>
 
-<%- include('partials/footer') %>
+        </div>
+    </div>
+</body>
 
+</html>
