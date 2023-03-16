@@ -19,3 +19,29 @@
     color: white !important;
     font-size: large;
 }
+.animate-charcter
+{
+    text-transform: uppercase;
+    background-image: linear-gradient(
+    -225deg,
+    #b5efff 0%,
+    #3ebef4 29%,
+    #3aacf3 67%,
+    rgb(111, 165, 248) 100%);
+    background-size: auto auto;
+    background-clip: border-box;
+    background-size: 200% auto;
+    color: #fff;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: textclip 2s linear infinite;
+    display: inline-block;
+        font-size: 150px;
+}
+
+@keyframes textclip {
+  to {
+    background-position: 200% center;
+  }
+}
