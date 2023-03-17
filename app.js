@@ -9,12 +9,14 @@ const passportLocalMongoose = require("passport-local-mongoose");
 const findOrCreate = require("mongoose-findorcreate");
 const nodeMailer = require("nodemailer");
 const roundOneCode = Math.floor(100000 + Math.random() * 900000);
+const roundTwoCode = Math.floor(100000 + Math.random() * 900000);
+const selectedMails = [];
 
 const app = express();
 
+app.set('view engine', 'ejs');
 app.use(express.static(__dirname + "/app"));
 app.use(express.static(__dirname + "/public"));
-app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.use(session({
@@ -26,12 +28,16 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-mongoose.connect('mongodb://127.0.0.1:27017/quizDB');
+main().catch(err => console.log(err));
+async function main() {
+    await mongoose.connect("mongodb+srv://" + process.env.DB_USERNAME + ":" + process.env.DB_PASSWORD + "@cluster0.5nfxrlm.mongodb.net/crackitDB");
+}
 
 const userSchema = new mongoose.Schema({
     email: String,
     password: String,
-    score: Number
+    score: Number,
+    answer: String
 });
 
 userSchema.plugin(passportLocalMongoose);
@@ -83,9 +89,17 @@ app.get("/access", function(req, res){
     res.render("access");
 });
 
-app.get("/quiz", function(req, res){
+app.get("/roundOne", function(req, res){
     if(req.isAuthenticated()){
-        res.render("quiz");
+        res.render("roundOne");
+    }else{
+        res.redirect("/login");
+    }
+});
+
+app.get("/roundTwo", function(req, res){
+    if(req.isAuthenticated()){
+        res.render("roundTwo");
     }else{
         res.redirect("/login");
     }
@@ -111,12 +125,8 @@ app.get("/secret/mails", function(req, res){
     res.render("mails");
 });
 
-app.get("/secret/question-round-one", function(req, res){
-    res.render("roundOne");
-});
-
-app.get("/secret/question-round-two", function(req, res){
-    res.render("roundtwo");
+app.get("/secret/sendMail", function(req, res){
+    res.render("sendMail");
 });
 
 app.post("/register", function(req, res){
@@ -139,7 +149,7 @@ app.post("/register", function(req, res){
             from: "CodeFiesta <ayeshamulani495@gmail.com>",
             to: email,
             subject: 'CodeFiesta - CrackIt',
-            text: "The access code for CodeFiesta - CrackIt is: " + roundOneCode  
+            text: "The access code for CodeFiesta - CrackIt Round One is: " + roundOneCode  
         });
         console.log("Message sent: " + info.messageId);
     }
@@ -158,17 +168,43 @@ app.post("/register", function(req, res){
     });
 });
 
-app.post("/login", async function(req, res){
+app.post("/login", function(req, res){
     const user = new User({
         username: req.body.username,
         password: req.body.password
     });
+    const email = req.body.username;
+    async function main(){
+
+        const transporter = nodeMailer.createTransport({
+            service: 'gmail',
+            auth: {
+                type: 'OAuth2',
+                user: process.env.MAIL_USERNAME,
+                pass: process.env.MAIL_PASSWORD,
+                clientId: process.env.OAUTH_CLIENTID,
+                clientSecret: process.env.OAUTH_CLIENT_SECRET,
+                refreshToken: process.env.OAUTH_REFRESH_TOKEN
+            }
+        });
+
+        const info = await transporter.sendMail({
+            from: "CodeFiesta <ayeshamulani495@gmail.com>",
+            to: email,
+            subject: 'CodeFiesta - CrackIt',
+            text: "The access code for CodeFiesta - CrackIt Round Two is: " + roundTwoCode  
+        });
+        console.log("Message sent: " + info.messageId);
+    }
+
+    main()
+    .catch(e => console.log(e));
     req.login(user, function(err){
         if(err){
             console.log(err);
         }else{
             passport.authenticate("local")(req, res, function(){
-                res.redirect("/quiz");
+                res.redirect("/access");
             });
         }
     });
@@ -177,7 +213,9 @@ app.post("/login", async function(req, res){
 app.post("/access", function(req, res){
     const code = req.body.code;
     if(code == roundOneCode){
-        res.redirect("/quiz");
+        res.redirect("/roundOne");
+    }else if(code == roundTwoCode){
+        res.redirect("/roundTwo");
     }else{
         res.send("Enter correct access code");
         res.redirect("/access");
@@ -193,8 +231,40 @@ app.post("/secret", function(req, res){
     }
 });
 
-app.post("/questions", function(req, res){
-    const numberOfQuestions = req.body.quesNum;
+app.post("/secret/mails", function(req, res){
+    const mail = req.body.mail;
+    selectedMails.push(mail);
+    res.redirect("/secret/mails");
+});
+
+app.post("/secret/sendMail", function(req, res){
+    async function main(){
+
+        const transporter = nodeMailer.createTransport({
+            service: 'gmail',
+            auth: {
+                type: 'OAuth2',
+                user: process.env.MAIL_USERNAME,
+                pass: process.env.MAIL_PASSWORD,
+                clientId: process.env.OAUTH_CLIENTID,
+                clientSecret: process.env.OAUTH_CLIENT_SECRET,
+                refreshToken: process.env.OAUTH_REFRESH_TOKEN
+            }
+        });
+
+        const info = await transporter.sendMail({
+            from: "CodeFiesta <ayeshamulani495@gmail.com>",
+            to: selectedMails,
+            subject: 'CodeFiesta - CrackIt',
+            text: "Congratulations!! You have been selected to ROUND TWO of CodeFiesta - CrackIT!!" 
+        });
+        console.log("Message sent: " + info.messageId);
+    }
+
+    main()
+    .catch(e => console.log(e));
+    res.redirect("/secret/sendMail");
+    selectedMails = [];
 });
 
 app.listen(3000, function() {
