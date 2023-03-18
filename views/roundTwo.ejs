@@ -35,55 +35,20 @@
               </div>
             </div>
           </nav>
-          <div class="container" style="margin-left: 50px;">
-        <form name="form1">
-            <label  style="color: white;">Q1 - 7 sisters in India : <br><input type="text"  size="100" placeholder="Your Answer"></label>
-            <br><br>
-
-            <label style="color: white;">Q2 - MK Gandhi was involved in a violent war from the side of the British Empire during his time in South Africa . Name of that war : <br><input type="text"  size="100" placeholder="Your Answer"></label>
-            <br><br>
-
-            <label style="color: white;">Q3 - Places part of  "Bada Chardham" : <br><input type="text" size="100" placeholder="Your Answer"></label>
-            <br><br>
-
-            <label style="color: white;">Q4 - When speaking about "Twin deficit" problems , what are those two deficits : <br><input type="text"  size="100" placeholder="Your Answer"></label>
-            <br><br>
-
-            <label style="color: white;">Q5 - Two houses of Indian Parliament are : <br><input type="text" size="100" placeholder="Your Answer"></label>
-            <br><br>
-
-            <label style="color: white;">Q6 - When did Indian National Congress adopt the resolution of Poorna Swaraj : <br><input type="text" size="100" placeholder="Your Answer"></label>
-            <br><br>
-
-            <label  style="color: white;">Q7 - Who was lawyer to Bal Gangadhar Tilak when he was charged with sedition : <br><input type="text" size="100" placeholder="Your Answer"></label>
-            <br><br>
-
-            <label style="color: white;">Q8 - Who is known as the father of Indian Navy : <br><input type="text" size="100" placeholder="Your Answer"></label>
-            <br><br>
-
-            <label style="color: white;">Q9 - Members of QUAD : <br><input type="text" size="100" placeholder="Your Answer"></label>
-            <br><br>
-
-            <label style="color: white;">Q10 - Which countries form the Lithium triangle : <br><input type="text" size="100" placeholder="Your Answer"></label>
-            <br><br>
-
-            <label style="color: white;">Q11 - India's senior most diplomat to commonwealth countries is known as : <br><input type="text" size="100" placeholder="Your Answer"></label>
-            <br><br>
-
-            <label style="color: white;">Q12 - Judges in India to HC and SC are selected by which system  : <br><input type="text" size="100" placeholder="Your Answer"></label>
-            <br><br>
-
-            <label style="color: white;">Q13 - Name all of India's neighboring countries (land borders only) : <br><input type="text" size="100" placeholder="Your Answer"></label>
-            <br><br>
-
-            <label style="color: white;">Q14 - USA dropped two atom bombs in WW2 on Japan namely : <br><input type="text" size="100" placeholder="Your Answer"></label>
-            <br><br>
-
-            <label style="color: white;">Q15 - Name 5 central asian countries which were formed after dissolution of USSR : <br><input type="text" size="100" placeholder="Your Answer"></label>
-            <br><br>
-        </form>
-    </div>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+          <div class="mb-3">
+            <form action="/roundTwo" method="POST">
+              <% for(int i=0; i<question.length; i++){ %>
+                <label for="exampleFormControlTextarea1" class="form-label"><%= question[i] %></label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="answer"></textarea>
+                <button class="btn btn-light" type="submit">Next</button>
+              <% } %>
+            </form>
+            <form action="/thanks" method="POST">
+              <button class="btn btn-light" type="submit">Submit</button>
+            </form>
+          </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+    <script src="js/question.js"></script>
 </body>
 </html>

@@ -1,4 +1,5 @@
 require("dotenv").config();
+import ejsLint from "ejs-lint";
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
@@ -11,6 +12,7 @@ const nodeMailer = require("nodemailer");
 const roundOneCode = Math.floor(100000 + Math.random() * 900000);
 const roundTwoCode = Math.floor(100000 + Math.random() * 900000);
 const selectedMails = [];
+const quizAnswer = [];
 
 const app = express();
 
@@ -37,7 +39,7 @@ const userSchema = new mongoose.Schema({
     email: String,
     password: String,
     score: Number,
-    answer: String
+    answer: [String]
 });
 
 userSchema.plugin(passportLocalMongoose);
@@ -103,6 +105,10 @@ app.get("/roundTwo", function(req, res){
     }else{
         res.redirect("/login");
     }
+});
+
+app.get("/thanks", function(req, res){
+    res.render("thanks");
 });
 
 app.get("/secret", function(req, res){
@@ -220,6 +226,20 @@ app.post("/access", function(req, res){
         res.send("Enter correct access code");
         res.redirect("/access");
     }
+});
+
+app.post("/roundTwo", function(req, res){
+    const answer = req.body.answer;
+    quizAnswer.push(answer);
+});
+
+app.post("/thanks", async function (req, res){
+    const filter = {email: ""};
+    const update = {answer: ["quizAnswer"]};
+    await Character.findOneAndUpdate(filter, update, {
+        new: true
+    });
+    
 });
 
 app.post("/secret", function(req, res){
