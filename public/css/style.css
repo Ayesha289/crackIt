@@ -20,6 +20,12 @@
     color: white !important;
     font-size: large;
 }
+.form-label{
+    color: white;
+}
+.mb-3{
+    text-align: center;
+}
 ::selection{
     color: #fff;
     background: black;

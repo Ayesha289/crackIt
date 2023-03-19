@@ -1,5 +1,4 @@
 require("dotenv").config();
-import ejsLint from "ejs-lint";
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
@@ -233,12 +232,8 @@ app.post("/roundTwo", function(req, res){
     quizAnswer.push(answer);
 });
 
-app.post("/thanks", async function (req, res){
-    const filter = {email: ""};
-    const update = {answer: ["quizAnswer"]};
-    await Character.findOneAndUpdate(filter, update, {
-        new: true
-    });
+app.post("/thanks", function (req, res){
+    res.redirect("/thanks");
     
 });
 

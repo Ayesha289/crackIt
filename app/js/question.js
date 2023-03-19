@@ -15,5 +15,3 @@ const question = [
     "USA dropped two atom bombs in WW2 on Japan namely : ",
     "Name 5 central asian countries which were formed after dissolution of USSR :"
 ];
-
-const answer = [];

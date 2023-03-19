@@ -55,18 +55,18 @@ let questions = [
     "Japan"
   ]
 },
-   {
-   numb: 6,
-   question: "First Capital of Shivja Maharaj's Swarajya",
-   answer: "Rajgad",
-   options: [
-     "Raigad",
-     "Torna",
-     "Purandar",
-     "Rajgad"
+  {
+  numb: 6,
+  question: "First Capital of Shivaji Maharaj's Swarajya",
+  answer: "Rajgad",
+  options: [
+    "Raigad",
+    "Torna",
+    "Purandar",
+    "Rajgad"
   ]
- },
- {
+},
+{
   numb: 7,
   question: "When did Bangladesh gain its Independence",
   answer: "1971",
@@ -75,7 +75,7 @@ let questions = [
     "1962",
     "1965",
     "1971"
- ]
+]
 },
 {
   numb: 8,
@@ -86,7 +86,7 @@ let questions = [
     "Brahmos",
     "Dhanush",
     "Prahar"
- ]
+]
 },
 {
   numb: 9,
@@ -97,7 +97,7 @@ let questions = [
     "4% +/-  2",
     "6% +/- 2",
     "8% +/- 2"
- ]
+]
 },
 {
   numb: 10,
@@ -108,7 +108,7 @@ let questions = [
     "MP",
     "UP",
     "Rajasthan"
- ]
+]
 },
 {
   numb: 11,
@@ -119,7 +119,7 @@ let questions = [
     "Pakistan",
     "Iraq",
     "Iran"
- ]
+]
 },
 {
   numb: 12,
@@ -130,7 +130,7 @@ let questions = [
     "U U Lalit",
     "Y V Chandrachud",
     "Dipak Misra"
- ]
+]
 },
 {
   numb: 13,
@@ -141,7 +141,7 @@ let questions = [
     "Gas Pipeline from Russia to Germany",
     "Oil pipeline from Germany to Russia",
     "Gas Pipeline from Germany to Russia"
- ]
+]
 },
 {
   numb: 14,
@@ -152,7 +152,7 @@ let questions = [
     "C Rajgolachari",
     "S Jaishankar",
     "VK Menon"
- ]
+]
 },
 {
   numb: 15,
@@ -163,7 +163,7 @@ let questions = [
     "USSR",
     "India",
     "France"
- ]
+]
 },
 {
   numb: 16,
@@ -217,8 +217,7 @@ let questions = [
       "J & K",
       "Punjab",
       "Himachal Pradesh",
-      "Uttarakhand"
- ]
+      "Uttarakhand" ]
 },
 ];
 //selecting all required elements
@@ -232,7 +231,7 @@ const option_list = document.querySelector(".option_list");
 const time_line = document.querySelector("header .time_line");
 const timeText = document.querySelector(".timer .time_left_txt");
 const timeCount = document.querySelector(".timer .timer_sec");
-
+let bonus= 0;
 // if startQuiz button clicked
 start_btn.onclick = ()=>{
   info_box.classList.add("activeInfo"); //show info box
@@ -339,16 +338,22 @@ let crossIconTag = '<div class="icon cross"><i class="fas fa-times"></i></div>';
 function optionSelected(answer){
   clearInterval(counter); //clear counter
   clearInterval(counterLine); //clear counterLine
+  let specialQuestions= "10 5 14 7";
   let userAns = answer.textContent; //getting user selected option
   let correcAns = questions[que_count].answer; //getting correct answer from array
   const allOptions = option_list.children.length; //getting all option items
+  let squestions = specialQuestions.split(' ');
   
+
   if(userAns == correcAns){ //if user selected option is equal to array's correct answer
       userScore += 1; //upgrading score value with 1
       answer.classList.add("correct"); //adding green color to correct selected option
       //answer.insertAdjacentHTML("beforeend", tickIconTag); //adding tick icon to correct selected option
       // console.log("Correct Answer");
       // console.log("Your correct answers = " + userScore);
+      if(questions == squestions){
+        bonus = bonus+1;
+      }    
   }else{
       answer.classList.add("incorrect"); //adding red color to correct selected option
       // answer.insertAdjacentHTML("beforeend", crossIconTag); //adding cross icon to correct selected option
@@ -386,6 +391,8 @@ function showResult(){
       let scoreTag = '<span>and sorry 😐, You got only <p>'+ userScore +'</p> out of <p>'+ questions.length +'</p></span>';
       scoreText.innerHTML = scoreTag;
   }
+  console.log(userScore);
+  console.log(bonus);
 }
 
 function startTimer(time){
@@ -412,7 +419,22 @@ function startTimer(time){
           for(i=0; i < allOptions; i++){
               option_list.children[i].classList.add("disabled"); //once user select an option then disabled all options
           }
-          next_btn.classList.add("show"); //show the next button if user selected any option
+          if(que_count < questions.length - 1){ //if question count is less than total question length
+            que_count++; //increment the que_count value
+            que_numb++; //increment the que_numb value
+            showQuetions(que_count); //calling showQestions function
+            queCounter(que_numb); //passing que_numb value to queCounter
+            clearInterval(counter); //clear counter
+            clearInterval(counterLine); //clear counterLine
+            startTimer(timeValue); //calling startTimer function
+            startTimerLine(widthValue); //calling startTimerLine function
+            timeText.textContent = "Time Left"; //change the timeText to Time Left
+            next_btn.classList.remove("show"); //hide the next button
+        }else{
+            clearInterval(counter); //clear counter
+            clearInterval(counterLine); //clear counterLine
+            showResult(); //calling showResult function
+        } //show the next button if user selected any option
       }
   }
 }
@@ -429,7 +451,6 @@ function startTimerLine(time){
 }
 
 function queCounter(index){
- 
   let totalQueCounTag = '<span><p>'+ index +'</p> of <p>'+ questions.length +'</p> Questions</span>';
   bottom_ques_counter.innerHTML = totalQueCounTag;  
 }
