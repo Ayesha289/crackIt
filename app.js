@@ -14,14 +14,16 @@ const selectedMails = [];
 const user = "";
 let flagone = 0;
 let flagtwo = 0;
-//const {userScore} = require("./app/js/script"); 
+//const {userScore} = require("./app/js/script");
 
 const app = express();
 
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/app"));
 app.use(express.static(__dirname + "/public"));
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+// app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(
   session({
@@ -49,6 +51,7 @@ const userSchema = new mongoose.Schema({
   email: String,
   password: String,
   score: Number,
+  timeTaken: String,
   answer: [String],
 });
 
@@ -155,6 +158,17 @@ app.get("/secret/mails", function (req, res) {
 
 app.get("/secret/sendMail", function (req, res) {
   res.render("sendMail");
+});
+
+app.post("/save", async (req, res) => {
+  const { userscore, timeTaken } = req.body;
+  const usermail = req.session.userId;
+  const filter = { email: usermail };
+  const updatedUser = await User.findOneAndUpdate(filter, {
+    score: userscore,
+    timeTaken,
+  });
+  res.status(200).json({ message: "Saved to db successfully", updatedUser });
 });
 
 app.post("/register", function (req, res) {
@@ -274,11 +288,11 @@ app.post("/access", function (req, res) {
   }
 });
 
-app.post("/roundOne", async function(req, res){
-    var usermail = req.session.userId;
-    const filter = {email: usermail};
-    const update = {score: 13};
-    await User.findOneAndUpdate(filter, update);
+app.post("/roundOne", async function (req, res) {
+  var usermail = req.session.userId;
+  const filter = { email: usermail };
+  const update = { score: 13 };
+  await User.findOneAndUpdate(filter, update);
 });
 
 app.post("/roundTwo", function (req, res) {
