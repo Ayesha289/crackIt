@@ -11,7 +11,9 @@ const nodeMailer = require("nodemailer");
 const roundOneCode = Math.floor(100000 + Math.random() * 900000);
 const roundTwoCode = Math.floor(100000 + Math.random() * 900000);
 const selectedMails = [];
-const quizAnswer = [];
+const user = "";
+let flagone = 0;
+let flagtwo = 0;
 
 const app = express();
 
@@ -90,6 +92,18 @@ app.get("/access", function(req, res){
     res.render("access");
 });
 
+app.get("/quiz", function(req, res){
+    res.render("quiz");
+});
+
+app.get("/quizOne", function(req, res){
+    res.render("access");
+});
+
+app.get("/quizTwo", function(req, res){
+    res.render("access");
+});
+
 app.get("/roundOne", function(req, res){
     if(req.isAuthenticated()){
         res.render("roundOne");
@@ -135,85 +149,98 @@ app.get("/secret/sendMail", function(req, res){
 });
 
 app.post("/register", function(req, res){
-    const email = req.body.username;
-    async function main(){
-
-        const transporter = nodeMailer.createTransport({
-            service: 'gmail',
-            auth: {
-                type: 'OAuth2',
-                user: process.env.MAIL_USERNAME,
-                pass: process.env.MAIL_PASSWORD,
-                clientId: process.env.OAUTH_CLIENTID,
-                clientSecret: process.env.OAUTH_CLIENT_SECRET,
-                refreshToken: process.env.OAUTH_REFRESH_TOKEN
-            }
-        });
-
-        const info = await transporter.sendMail({
-            from: "CodeFiesta <ayeshamulani495@gmail.com>",
-            to: email,
-            subject: 'CodeFiesta - CrackIt',
-            text: "The access code for CodeFiesta - CrackIt Round One is: " + roundOneCode  
-        });
-        console.log("Message sent: " + info.messageId);
-    }
-
-    main()
-    .catch(e => console.log(e));
+    const user = req.body.username;
     User.register({username: req.body.username}, req.body.password, function(err, user){
         if(err){
             console.log(err);
             res.redirect("/");
         }else{
             passport.authenticate("local")(req, res, function(){
-                res.redirect("/access");
+                req.session.userId = req.body.username;
+                res.redirect("/quiz");
             });
         }
     });
 });
 
 app.post("/login", function(req, res){
+    const usermail = req.body.username;
     const user = new User({
         username: req.body.username,
         password: req.body.password
     });
-    const email = req.body.username;
-    async function main(){
-
-        const transporter = nodeMailer.createTransport({
-            service: 'gmail',
-            auth: {
-                type: 'OAuth2',
-                user: process.env.MAIL_USERNAME,
-                pass: process.env.MAIL_PASSWORD,
-                clientId: process.env.OAUTH_CLIENTID,
-                clientSecret: process.env.OAUTH_CLIENT_SECRET,
-                refreshToken: process.env.OAUTH_REFRESH_TOKEN
-            }
-        });
-
-        const info = await transporter.sendMail({
-            from: "CodeFiesta <ayeshamulani495@gmail.com>",
-            to: email,
-            subject: 'CodeFiesta - CrackIt',
-            text: "The access code for CodeFiesta - CrackIt Round Two is: " + roundTwoCode  
-        });
-        console.log("Message sent: " + info.messageId);
-    }
-
-    main()
-    .catch(e => console.log(e));
     req.login(user, function(err){
         if(err){
             console.log(err);
         }else{
             passport.authenticate("local")(req, res, function(){
-                res.redirect("/access");
+                res.redirect("/quiz");
             });
         }
     });
 });
+
+app.post("/quizOne", function(req, res){
+    var usermail = req.session.userId;
+        if(flagone == 0){
+            async function main(){
+                const transporter = nodeMailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                        type: 'OAuth2',
+                        user: process.env.MAIL_USERNAME,
+                        pass: process.env.MAIL_PASSWORD,
+                        clientId: process.env.OAUTH_CLIENTID,
+                        clientSecret: process.env.OAUTH_CLIENT_SECRET,
+                        refreshToken: process.env.OAUTH_REFRESH_TOKEN
+                    }
+                });
+                const info = await transporter.sendMail({
+                    from: "CodeFiesta <ayeshamulani495@gmail.com>",
+                    to: usermail,
+                    subject: 'CodeFiesta - CrackIt',
+                    text: "The access code for CodeFiesta - CrackIt Round One is: " + roundOneCode  
+                });
+                console.log("Message sent: " + info.messageId);
+            }
+            main()
+            .catch(e => console.log(e));
+            res.redirect("/access");
+            flagone = 1;
+        }else{
+        res.redirect("/access");
+    }
+});
+
+app.post("/quizTwo", function(req, res){
+    var usermail = req.session.userId;
+    if(flagtwo == 0){
+        async function main(){
+
+            const transporter = nodeMailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    type: 'OAuth2',
+                    user: process.env.MAIL_USERNAME,
+                    pass: process.env.MAIL_PASSWORD,
+                    clientId: process.env.OAUTH_CLIENTID,
+                    clientSecret: process.env.OAUTH_CLIENT_SECRET,
+                    refreshToken: process.env.OAUTH_REFRESH_TOKEN
+                }
+            });
+    
+            const info = await transporter.sendMail({
+                from: "CodeFiesta <ayeshamulani495@gmail.com>",
+                to: usermail,
+                subject: 'CodeFiesta - CrackIt',
+                text: "The access code for CodeFiesta - CrackIt Round Two is: " + roundTwoCode  
+            });
+        main()
+        .catch(e => console.log(e));
+        res.redirect("/access");
+        flagtwo = 1;
+    }
+}});
 
 app.post("/access", function(req, res){
     const code = req.body.code;
