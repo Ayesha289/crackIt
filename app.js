@@ -161,10 +161,8 @@ app.get("/secret/sendMail", function (req, res) {
 });
 
 app.post("/save", async (req, res) => {
-  const { userscore, timeTaken } = req.body;
-  const usermail = req.session.userId;
-  const filter = { email: usermail };
-  const updatedUser = await User.findOneAndUpdate(filter, {
+  const { userscore, timeTaken, userId } = req.body;
+  const updatedUser = await User.findByIdAndUpdate(userId, {
     score: userscore,
     timeTaken,
   });
