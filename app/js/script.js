@@ -137,30 +137,29 @@ let questions = [
 ];
 //selecting all required elements
 
-if (typeof document !== "undefined") {
-  let start_btn = document.querySelector(".start_btn button");
-  console.log(start_btn);
-  const info_box = document.querySelector(".info_box");
-  const exit_btn = info_box.querySelector(".buttons .quit");
-  const continue_btn = info_box.querySelector(".buttons .restart");
-  const quiz_box = document.querySelector(".quiz_box");
-  const result_box = document.querySelector(".result_box");
-  const option_list = document.querySelector(".option_list");
-  const time_line = document.querySelector("header .time_line");
-  const timeText = document.querySelector(".timer .time_left_txt");
-  const timeCount = document.querySelector(".timer .timer_sec");
-}
-//const start_btn = document.querySelector(".start_btn button");
-// const info_box = document.querySelector(".info_box");
-// const exit_btn = info_box.querySelector(".buttons .quit");
-// const continue_btn = info_box.querySelector(".buttons .restart");
-// const quiz_box = document.querySelector(".quiz_box");
-// const result_box = document.querySelector(".result_box");
-// const option_list = document.querySelector(".option_list");
-// const time_line = document.querySelector("header .time_line");
-// const timeText = document.querySelector(".timer .time_left_txt");
-// const timeCount = document.querySelector(".timer .timer_sec");
-let bonus = 0;
+// if (typeof document !== "undefined") {
+//   let start_btn = document.querySelector(".start_btn button");
+//   console.log(start_btn);
+//   const info_box = document.querySelector(".info_box");
+//   const exit_btn = info_box.querySelector(".buttons .quit");
+//   const continue_btn = info_box.querySelector(".buttons .restart");
+//   const quiz_box = document.querySelector(".quiz_box");
+//   const result_box = document.querySelector(".result_box");
+//   const option_list = document.querySelector(".option_list");
+//   const time_line = document.querySelector("header .time_line");
+//   const timeText = document.querySelector(".timer .time_left_txt");
+//   const timeCount = document.querySelector(".timer .timer_sec");
+// }
+const start_btn = document.querySelector(".start_btn button");
+const info_box = document.querySelector(".info_box");
+const exit_btn = info_box.querySelector(".buttons .quit");
+const continue_btn = info_box.querySelector(".buttons .restart");
+const quiz_box = document.querySelector(".quiz_box");
+const result_box = document.querySelector(".result_box");
+const option_list = document.querySelector(".option_list");
+const time_line = document.querySelector("header .time_line");
+const timeText = document.querySelector(".timer .time_left_txt");
+const timeCount = document.querySelector(".timer .timer_sec");
 // if startQuiz button clicked
 start_btn.onclick = () => {
   info_box.classList.add("activeInfo"); //show info box
@@ -214,6 +213,14 @@ const quit_quiz = result_box.querySelector(".buttons .quit");
 // if quitQuiz button clicked
 quit_quiz.onclick = () => {
   window.location.reload(); //reload the current window
+  async function saveToDB(data){
+    //Change url when hosted
+    await fetch("http://localhost:3000/save", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  };
+  saveToDB();
 };
 
 const next_btn = document.querySelector("footer .next_btn");
@@ -426,11 +433,3 @@ function queCounter(index) {
     "</p> Questions</span>";
   bottom_ques_counter.innerHTML = totalQueCounTag;
 }
-
-const saveToDb = async (data) => {
-  //Change url when hosted
-  await fetch("http://localhost:3000/save", {
-    method: "POST",
-    body: JSON.stringify(data),
-  });
-};
