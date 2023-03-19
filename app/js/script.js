@@ -90,7 +90,7 @@ let questions = [
 },
 {
   numb: 9,
-  question: "According to GoI and RBI inflation is tolerable within the of ",
+  question: "According to GoI and RBI inflation is tolerable within the limit of ",
   answer: "4% +/-  2",
   options: [
     "2% +/- 2",
@@ -218,7 +218,7 @@ let questions = [
       "Punjab",
       "Himachal Pradesh",
       "Uttarakhand" ]
-},
+}
 ];
 //selecting all required elements
 const start_btn = document.querySelector(".start_btn button");
@@ -231,16 +231,15 @@ const option_list = document.querySelector(".option_list");
 const time_line = document.querySelector("header .time_line");
 const timeText = document.querySelector(".timer .time_left_txt");
 const timeCount = document.querySelector(".timer .timer_sec");
-let bonus= 0;
 // if startQuiz button clicked
 start_btn.onclick = ()=>{
   info_box.classList.add("activeInfo"); //show info box
 }
 
 // if exitQuiz button clicked
-exit_btn.onclick = ()=>{
-  info_box.classList.remove("activeInfo"); //hide info box
-}
+//   exit_btn.onclick = ()=>{
+//     info_box.classList.remove("activeInfo"); //hide info box
+//   }
 
 // if continueQuiz button clicked
 continue_btn.onclick = ()=>{
@@ -338,22 +337,17 @@ let crossIconTag = '<div class="icon cross"><i class="fas fa-times"></i></div>';
 function optionSelected(answer){
   clearInterval(counter); //clear counter
   clearInterval(counterLine); //clear counterLine
-  let specialQuestions= "10 5 14 7";
   let userAns = answer.textContent; //getting user selected option
   let correcAns = questions[que_count].answer; //getting correct answer from array
   const allOptions = option_list.children.length; //getting all option items
-  let squestions = specialQuestions.split(' ');
   
-
+  
   if(userAns == correcAns){ //if user selected option is equal to array's correct answer
       userScore += 1; //upgrading score value with 1
       answer.classList.add("correct"); //adding green color to correct selected option
       //answer.insertAdjacentHTML("beforeend", tickIconTag); //adding tick icon to correct selected option
       // console.log("Correct Answer");
-      // console.log("Your correct answers = " + userScore);
-      if(questions == squestions){
-        bonus = bonus+1;
-      }    
+      // console.log("Your correct answers = " + userScore);   
   }else{
       answer.classList.add("incorrect"); //adding red color to correct selected option
       // answer.insertAdjacentHTML("beforeend", crossIconTag); //adding cross icon to correct selected option

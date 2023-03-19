@@ -16,12 +16,11 @@
                 height="90"
                 alt="Logo"
                 loading="lazy"
-                width="100"
-              />
-              <label class="navbar-brand">CrackIt</label>
-            <div class="time_line"></div>
-              <div class="collapse navbar-collapse" id="navbarCollapse">
-                <div class="navbar-nav ms-auto">
+                width="100"/>
+                <label class="navbar-brand">CrackIt</label>
+                <div class="time_line"></div>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <div class="navbar-nav ms-auto">
                     <a href="/logout" class="nav-item nav-link">Logout</a>
                 </div>
                 <img
@@ -30,25 +29,68 @@
                 alt="Logo"
                 loading="lazy"
                 width="80"/>
-                
-              </div>
             </div>
-          </nav>
-          <div class="mb-3">
-            <form action="/roundTwo" method="POST">
-                <label for="exampleFormControlTextarea1" class="form-label">7 sisters in India :</label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="answer"></textarea>
-                <br>
-                <br>
-                <button class="btn btn-light" type="submit">Next</button>
-            </form>
-            <br>
-            <form action="/thanks" method="POST">
-              <button class="btn btn-light" type="submit">Submit</button>
-            </form>
-          </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
-    <script src="js/question.js"></script>
-</body>
+            </div>
+        </nav>
+    
+        <div class="start_btn">
+            <button>Start Quiz</button>
+        </div>
+        <div class="info_box">
+            <div class="info-title">
+                <span>Some Rules of this Quiz</span>
+            </div>
+            <div class="info-list">
+                <div class="info">1. A team will get <span>15 seconds</span> for answering 15 Questions.</div>
+                <div class="info">2. A team has to type the answer for the question in the provided Text Boxes.</div>
+                <div class="info">3. A team can't exit from the Quiz while you are playing.</div>
+                <div class="info">4. Scores would be calculated according to the accuracy of the correct answer.</div>
+                <div class="info">5. No negative marking will be considered.</div>
+            </div>
+            <div class="buttons">
+                <!-- <button class="quit" style="background-color: black !important;">Exit Quiz</button> -->
+                <button class="restart" style="background-color: black !important;">Continue</button>
+            </div>
+        </div>
+        <div class="quiz_box">
+            <header>
+                <div class="title">CodeFiesta-CrackIt</div>
+                <div class="timer">
+                    <div class="time_left_txt">Time Left</div>
+                    <div class="timer_sec">15</div>
+                </div>
+                <!-- <div class="time_line"></div> -->
+            </header>
+            <section>
+                <div class="que_text">
+            
+                </div>
+                <div class="option_list">
+            
+                </div>
+            </section>
+            <footer>
+                <div class="total_que">
+                
+                </div>
+                <button class="next_btn">Next Que</button>
+            </footer>
+        </div>
+
+        <!-- Result Box -->
+        <div class="result_box">
+            <div class="icon">
+                <img src="img/crackIt_logo.png"></img>
+            </div>
+            <div class="complete_text">You've completed the Quiz!</div>
+            <div class="score_text">
+            
+            </div>
+            <div class="buttons">
+                <!-- <button class="restart">Replay Quiz</button> -->
+                <button class="quit">Exit</button>
+            </div>
+        </div>
+        <script src="js/question.js"></script>
+    </body>
 </html>
